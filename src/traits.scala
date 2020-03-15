@@ -1,4 +1,5 @@
 case class Position(var x: Int, var y: Int, var z: Int)
+// 0 index ur position
 
 trait Entity {
   def name: String
@@ -12,7 +13,7 @@ trait Terrain {
   def dimensions: Position
   def entity(pos: Position): Entity
   def groundExist(pos: Position): Boolean
-  def groundType: Material
+  def groundType(pos: Position): Material
 }
 
 trait Material {
