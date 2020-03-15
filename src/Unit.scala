@@ -11,4 +11,10 @@ trait Terrain {
   def dimensions: Position
   def entity(pos: Position): Entity
   def groundExist(pos: Position): Boolean
+  def groundType: Material
+}
+
+trait Material {
+  def hardness: Int
+  def output: Array[Material]
 }
