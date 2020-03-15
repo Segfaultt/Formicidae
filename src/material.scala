@@ -1,0 +1,3 @@
+object Stone extends Material {
+
+}
