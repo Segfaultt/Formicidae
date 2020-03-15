@@ -37,6 +37,8 @@ trait Material {
 }
 
 trait Transmitter {
-	def terrainChange(Array[(Position, Material)])
-	def entityChange(Array[Entity])
+	def terrainChange(Array[(Position, Material)]): Unit
+        def getTerrainChanges: Array[(Position,Material)]
+	def entityChange(Array[Entity]): Unit
+        def getEntityChanges: Array[Entity]
 }
