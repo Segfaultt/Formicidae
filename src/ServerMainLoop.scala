@@ -1,5 +1,5 @@
 import traits._
-
+import scala.collection.mutable.Queue
 /*
  * TODO - figure out
  * Movement
@@ -11,7 +11,7 @@ object MainLoop {
 
 	private val tick: Int = 500 // how long a 'tick' of the clock should be in ms
 	private var te: Terrain = null // the terrain object that stores the state of the game
-	private var moves: List[Move] = Nil
+	private var moves: Transmitter = new Transmitter(5)
 	
 	def init: Unit = 
 	{
@@ -22,22 +22,19 @@ object MainLoop {
 	
 	def mainLoop: Unit = 
 	{
-	  var quit: Boolean = false
-	
-	  while(!quit)
-	  {
-	    val todo: List[Move] = getMove
-	  }
+		val toExec: Transmitter = getMove
+                ter.updateTerrain(getMove.getTerrainChanges)
+                ter.updateEntities(getMove.getEntityChanges)
 	}
 	
-	def getMove: List[Move] = 
+	def getMove: Transmitter = 
 	{
-		val re: List[Move] = moves
-		moves = Nil
+		val re: Transmitter = moves
+		moves = new Queue()
 		re
 	}
 
-	def addMove(x: Move): Unit = (moves = x::moves)
+	def addMove(x: Transmitter): Unit = (moves.enqueue(x))
 	
 	// fetches random enough number
 	// doesn't have to be cryptographically random
