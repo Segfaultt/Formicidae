@@ -5,6 +5,7 @@ trait Entity {
   def hp: Int
   def pos: Position
   def dmg: Int
+  def speed: Int
 }
 
 trait Terrain {
@@ -17,4 +18,5 @@ trait Terrain {
 trait Material {
   def hardness: Int
   def output: Array[Material]
+  def movementModifier(sp: Int): Int
 }
