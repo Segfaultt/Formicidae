@@ -27,6 +27,8 @@ trait Terrain {
 	def moveEntity(origin: Position, end: Position): Boolean // true if move possible and complete otherwise false
 	def groundExist(pos: Position): Boolean
 	def groundType(pos: Position): Material
+        def updateTerrain(Array[(Position,Material)]): Unit
+        def updateEntities(Array[(Position,Entity)]): Unit
 	def generateTerrain(seed: Int): Unit
 }
 
@@ -39,6 +41,6 @@ trait Material {
 trait Transmitter {
 	def terrainChange(Array[(Position, Material)]): Unit
         def getTerrainChanges: Array[(Position,Material)]
-	def entityChange(Array[Entity]): Unit
-        def getEntityChanges: Array[Entity]
+	def entityChange(Array[(Position,Entity)]): Unit
+        def getEntityChanges: Array[(Position,Entity)]
 }
