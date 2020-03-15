@@ -2,10 +2,10 @@ case class Position(var x: Int, var y: Int, var z: Int)
 
 trait Entity {
   def name: String
-  def hp: Int
+  def hp: Double
   def pos: Position
-  def dmg: Int
-  def speed: Int
+  def dmg: Double
+  def speed: Double
 }
 
 trait Terrain {
@@ -18,5 +18,5 @@ trait Terrain {
 trait Material {
   def hardness: Int
   def output: Array[Material]
-  def movementModifier(sp: Int): Int
+  def movementModifier(sp: Double): Double
 }
