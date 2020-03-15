@@ -14,6 +14,7 @@ trait Terrain {
   def entity(pos: Position): Entity
   def groundExist(pos: Position): Boolean
   def groundType(pos: Position): Material
+  def generateTerrain(seed: Int): Unit
 }
 
 trait Material {
