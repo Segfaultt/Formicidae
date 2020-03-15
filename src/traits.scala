@@ -1,5 +1,8 @@
 case class Position(var x: Int, var y: Int, var z: Int)
 // 0 index ur position
+case class Move(var entity: Entity, var target: Entity, var pos: Position, var finalPos: Position)
+
+//type Action = TODO - figure out how to enumerate different interactions with the world
 
 trait Entity {
 	def name: String
