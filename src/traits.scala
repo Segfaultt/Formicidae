@@ -8,6 +8,7 @@ trait Entity {
 	def dmg: Double
 	def speed: Double
 	def inventory: Array[Material]
+	val id: Int
 }
 
 /*
@@ -30,4 +31,9 @@ trait Material {
 	def hardness: Int
 	def output: Array[Material]
 	def movementModifier(sp: Double): Double
+}
+
+trait Transmitter {
+	def terrainChange(Array[(Position, Material)])
+	def entityChange(Array[Entity])
 }

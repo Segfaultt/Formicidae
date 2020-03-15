@@ -1,8 +1,9 @@
 import Formicidae/src/entities._
 
-class Footsoldier(startPos: Position) extends Entity {
+class Footsoldier(startPos: Position, idInit: Int) extends Entity {
   private var health: Int = 10
   private var position: Position = startPos
+  val id = idInit
 
   def name: String = "Footsoldier"
   def hp: Int = health
