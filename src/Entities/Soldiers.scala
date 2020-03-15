@@ -1,13 +1,13 @@
-import /entities._
+import Formicidae/src/entities._
 
-class Footsoldier(pos: Position) extends Entity {
+class Footsoldier(startPos: Position) extends Entity {
   private var health: Int = 10
-  private var position: Position = (0,0,0)
+  private var position: Position = startPos
 
   def name: String = "Footsoldier"
   def hp: Int = health
 
-  def pos
+  def pos: Position = position
 
   def dmg: Int = 2
   def speed: Int = 5
