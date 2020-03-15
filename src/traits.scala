@@ -9,9 +9,17 @@ trait Entity {
   def speed: Double
 }
 
+/*
+ * Terrain should exist as this monolithic object storing:
+ * Terrain material
+ * Terrain size
+ * Entities
+ */
+
 trait Terrain {
   def dimensions: Position
   def entity(pos: Position): Entity
+  def moveEntity(origin: Position, end: Position): Boolean // true if move possible and complete otherwise false
   def groundExist(pos: Position): Boolean
   def groundType(pos: Position): Material
   def generateTerrain(seed: Int): Unit
