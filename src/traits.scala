@@ -1,3 +1,4 @@
+package src.com
 case class Position(var x: Int, var y: Int, var z: Int)
 // 0 index ur position
 case class Move(var entity: Entity, var target: Entity, var pos: Position, var finalPos: Position)
@@ -27,8 +28,8 @@ trait Terrain {
 	def moveEntity(origin: Position, end: Position): Boolean // true if move possible and complete otherwise false
 	def groundExist(pos: Position): Boolean
 	def groundType(pos: Position): Material
-        def updateTerrain(Array[(Position,Material)]): Unit
-        def updateEntities(Array[(Position,Entity)]): Unit
+        def updateTerrain(updates: Array[(Position,Material)]): Unit
+        def updateEntities(updates: Array[(Position,Entity)]): Unit
 	def generateTerrain(seed: Int): Unit
 }
 
@@ -39,8 +40,8 @@ trait Material {
 }
 
 trait Transmitter {
-	def terrainChange(Array[(Position, Material)]): Unit
+	def terrainChange(changes: Array[(Position, Material)]): Unit
         def getTerrainChanges: Array[(Position,Material)]
-	def entityChange(Array[(Position,Entity)]): Unit
+	def entityChange(changes: Array[(Position,Entity)]): Unit
         def getEntityChanges: Array[(Position,Entity)]
 }
