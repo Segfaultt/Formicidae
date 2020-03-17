@@ -1,7 +1,10 @@
-import traits._
+import scala.collection.mutable.LinkedList
 import java.net.Socket
 import java.net.InetSocketAddress
+import java.net.InetAddress
 import java.net.SocketAddress
+import java.net.DatagramPacket
+import java.net.DatagramSocket
 import java.nio.channels.DatagramChannel
 import java.nio.channels.ServerSocketChannel
 
@@ -22,17 +25,17 @@ object Transmitter {
 		val b = new Array[Byte](a.size*4)
 		var i = 0
 		for (i <- 0 until a.size) {
-			b(4*i)   = (a(i) >> 24)&0xFF
-			b(4*i+1) = (a(i) >> 16)&0xFF
-			b(4*i+2) = (a(i) >> 8 )&0xFF
-			b(4*i+3) =  a(i)       &0xFF
+			b(4*i)   = (a(i) >> 24).toByte
+			b(4*i+1) = (a(i) >> 16).toByte
+			b(4*i+2) = (a(i) >> 8 ).toByte
+			b(4*i+3) =  a(i).toByte
 		}
 		b
 	}
 	
 	def connect(address : String) = 
 	{
-		addresses.next = LinkedList(InetAddress.getByName(address), addresses.next)
+		addresses.next = new LinkedList(InetAddress.getByName(address), addresses.next)
 	}
 
 	def terrainChange(changes : Array[(Position, Material)]) = 
@@ -43,7 +46,7 @@ object Transmitter {
 			assert(changes.size*4*4 < BUFSIZE)
 
 			//build buffer
-			val preBuf = Array[Int].fill(BUFSIZE/4)(Int.MaxValue)//fill empty space with max int
+			val preBuf = Array.fill[Int](BUFSIZE/4)(Int.MaxValue)//fill empty space with max int
 			preBuf(0) = 0//code for terrainChange
 			var i = 1
 			for (i <- 0 until changes.size) {

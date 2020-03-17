@@ -1,15 +1,13 @@
-import Entity._
 import Position._
-import Material._
 
-class Battleground extends Terrain {
-	val entities = new Array[Entity](dimensions.x)(dimensions.y)(dimensions.z) 
+class Battleground(dim : Position) extends Terrain {
+	val entities = Array.ofDim[Entity](dimensions.x, dimensions.y, dimensions.z) 
         // implementation clear internally: DO NOT EXPOSE WITHOUT MAKING CLEAR
-	val materials = new Array[Material](dimensions.x)(dimensions.y)(dimensions.z)
+	val materials = Array.ofDim[Material](dimensions.x, dimensions.y, dimensions.z)
 
-        def dimensions: Position = dimensions
+        def dimensions: Position = dim
         def entity(pos: Position): Entity = entities(pos.x)(pos.y)(pos.z)
-        def groundExist(pos: Position): Boolean = materials(pos.x)(pos.y)(pos.z)
+        def groundExist(pos: Position): Boolean = materials(pos.x)(pos.y)(pos.z) != Air
         def groundType(pos: Position): Material = materials(pos.x)(pos.y)(pos.z)
 
         def updateTerrain(updates: Array[(Position,Material)]): Unit = 
@@ -25,11 +23,16 @@ class Battleground extends Terrain {
           }
         }
 
-        def updateEntities(updates: Array[(Position,Entities)]) : Unit = 
+        def updateEntities(updates: Array[(Position,Entity)]) : Unit = 
         {
           var i = 0
           for (i <- 0 until updates.size) {
-            val(gp,ent) = updates(apos)
+            val(gp,ent) = updates(i)
           }
         }
+
+	def generateTerrain(seed: Int): Unit = ???
+
+	// true if move possible and complete otherwise false
+	def moveEntity(origin: Position, end: Position): Boolean = ???
 }

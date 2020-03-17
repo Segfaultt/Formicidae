@@ -1,5 +1,4 @@
 //import scala.collection.mutable.Queue
-import Terrain._
 import Transmitter._
 
 /*
@@ -11,12 +10,12 @@ import Transmitter._
 
 class ServerLoop {
 
-	private val tick: Int = 500 // how long a 'tick' of the clock should be in ms
-	private var ter: Terrain = new Battleground // the terrain object that stores the state of the game
+	private val tickLength: Int = 500 // how long a 'tick' of the clock should be in ms
+	private var ter: Terrain = new Battleground(Position(1000,1000,3)) // the terrain object that stores the state of the game
 	
 	def init: Unit = 
 	{
-		val seed: Int = System.currentTimeMillis()
+		val seed: Int = System.currentTimeMillis().toInt
 		ter.generateTerrain(seed)
 	}
 	
@@ -27,12 +26,12 @@ class ServerLoop {
                 ter.updateEntities(getMove.getEntityChanges)*/
 	}
 	
-	def getMove: Transmitter = 
+	/*def getMove: Transmitter = 
 	{
-		/*val re: Transmitter = moves//??? 
+		val re: Transmitter = moves//??? 
 		moves = new Queue()
-		re*/
-	}
+		re
+	}*/
 
 	//def addMove(x: Transmitter): Unit = (moves.enqueue(x))
 }

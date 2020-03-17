@@ -12,6 +12,14 @@ trait Entity {
 	def dmg: Double
 	def speed: Double
 	def inventory: Array[Material]
+
+	//check numerical identity
+	override def equals(that : Any) : Boolean = {
+		that match {
+			case that : Entity => id == that.id
+			case _ => false
+		}
+	}
 }
 
 /*
@@ -37,4 +45,12 @@ trait Material {
 	def hardness: Int
 	def output: Array[Material]
 	def movementModifier(sp: Double): Double
+	
+	//check qualitative identity 
+	override def equals(that : Any) : Boolean = {
+		that match {
+			case that : Material => id == that.id
+			case _ => false
+		}
+	}
 }
