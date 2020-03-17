@@ -2,13 +2,13 @@ case class Position(var x: Int, var y: Int, var z: Int)
 // 0 index ur position
 
 trait Entity {
+	val id: Int
 	def name: String
 	def hp: Double
 	def pos: Position
 	def dmg: Double
 	def speed: Double
 	def inventory: Array[Material]
-	val id: Int
 }
 
 /*
@@ -28,12 +28,14 @@ trait Terrain {
 }
 
 trait Material {
+	def id: Int
 	def hardness: Int
 	def output: Array[Material]
 	def movementModifier(sp: Double): Double
 }
 
 trait Transmitter {
+	def connect(address : String)
 	def terrainChange(Array[(Position, Material)])
 	def entityChange(Array[Entity])
 }
