@@ -1,6 +1,6 @@
 import traits 
 
-object BattleGround extends Terrain (dimensions : Position) {
+class BattleGround extends Terrain (dimensions : Position) {
 	val entities = new Array[Entity](dimensions.x)(dimensions.y)(dimensions.z) 
         // implementation clear internally: DO NOT EXPOSE WITHOUT MAKING CLEAR
 	val materials = new Array[Material](dimensions.x)(dimensions.y)(dimensions.z)

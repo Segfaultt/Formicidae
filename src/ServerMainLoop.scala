@@ -10,26 +10,25 @@ import scala.collection.mutable.Queue
 object MainLoop {
 
 	private val tick: Int = 500 // how long a 'tick' of the clock should be in ms
-	private var te: Terrain = null // the terrain object that stores the state of the game
-	private var moves: Transmitter = new Transmitter(5)
+	private var ter: Terrain = new BattleGround // the terrain object that stores the state of the game
 	
 	def init: Unit = 
 	{
 	  val seed: Int = getRand
-	  ter = generateTerrain(getRand)
+	  ter.generateTerrain(getRand)
 	  
 	}
 	
 	def mainLoop: Unit = 
 	{
-		val toExec: Transmitter = getMove
+		val toExec: Transmitter = getMove//??? Transmitter is a singleton object
                 ter.updateTerrain(getMove.getTerrainChanges)
                 ter.updateEntities(getMove.getEntityChanges)
 	}
 	
 	def getMove: Transmitter = 
 	{
-		val re: Transmitter = moves
+		val re: Transmitter = moves//??? 
 		moves = new Queue()
 		re
 	}
