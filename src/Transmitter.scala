@@ -13,6 +13,13 @@ import java.nio.channels.ServerSocketChannel
   * - entity change
   */
 
+/** packet prefix codes
+  * code(Int32)	| meaning
+  * ----------------------
+  * 	0	| new connection
+  *	1	| terrain change
+  */
+
 object Transmitter {
 	private val PORT = 4226
 	private val BUFSIZE = 2048//note this
@@ -20,6 +27,20 @@ object Transmitter {
 	private val socket = new DatagramSocket(PORT);
 	private val addresses = new LinkedList(InetAddress.getByName("localhost"), null)//dummy header
 
+	//send buf to recipient
+	private def sendBuf(buf : Array[Byte], recipient : InetAddress) : Unit = 
+	{
+		val packet = new DatagramPacket(buf, buf.size, recipient, PORT);
+		socket.send(packet)
+	}
+
+	//send buf to every address in addresses
+	private def broadcast(buf : Array[Byte]) : Unit =
+	{
+		var recipient = addresses
+		while (recipient.next != null) { sendBuf(buf, recipient.next.elem) }	
+	}
+	
 	private def intArrayToByteArray(a : Array[Int]) : Array[Byte] =//be careful with neg integers
 	{
 		val b = new Array[Byte](a.size*4)
@@ -33,35 +54,37 @@ object Transmitter {
 		b
 	}
 	
-	def connect(address : String) = 
+	def addConnection(address : String) : Unit = 
 	{
 		addresses.next = new LinkedList(InetAddress.getByName(address), addresses.next)
 	}
 
-	def terrainChange(changes : Array[(Position, Material)]) = 
+	def connectToServer(address : String) : Unit = 
 	{
-		var recipient = addresses
-		while (recipient.next != null) {//traverse linked list
-			//ensure buffer can be large enough
-			assert(changes.size*4*4 < BUFSIZE)
-
-			//build buffer
-			val preBuf = Array.fill[Int](BUFSIZE/4)(Int.MaxValue)//fill empty space with max int
-			preBuf(0) = 0//code for terrainChange
-			var i = 1
-			for (i <- 0 until changes.size) {
-				preBuf(i*4+1) = changes(i)._1.x
-				preBuf(i*4+2) = changes(i)._1.y
-				preBuf(i*4+3) = changes(i)._1.z
-				preBuf(i*4+4) = changes(i)._2.id
-			}
-			val buf = intArrayToByteArray(preBuf)
-			
-			//packing and postage
-			val packet = new DatagramPacket(buf, buf.size, recipient.next.elem, PORT);
-			socket.send(packet)
-		}
+		addConnection(address)
+		val buf = Array.fill[Byte](BUFSIZE)(0)
+		sendBuf(buf, InetAddress.getByName(address))
 	}
 
+	def terrainChange(changes : Array[(Position, Material)]) : Unit = 
+	{
+		//ensure buffer can be large enough
+		assert(changes.size*4*4 < BUFSIZE)
+
+		//build buffer
+		val preBuf = Array.fill[Int](BUFSIZE/4)(Int.MaxValue)//fill empty space with max int
+		preBuf(0) = 1//code for terrainChange
+		var i = 1
+		for (i <- 0 until changes.size) {
+			preBuf(i*4+1) = changes(i)._1.x
+			preBuf(i*4+2) = changes(i)._1.y
+			preBuf(i*4+3) = changes(i)._1.z
+			preBuf(i*4+4) = changes(i)._2.id
+		}
+		val buf = intArrayToByteArray(preBuf)
+		
+		broadcast(buf)
+	}
+	
 	def entityChange(changes : Array[Entity]) = ??? 
 }
