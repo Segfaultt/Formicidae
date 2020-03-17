@@ -1,5 +1,8 @@
 case class Position(var x: Int, var y: Int, var z: Int)
 // 0 index ur position
+case class Move(var entity: Entity, var target: Entity, var pos: Position, var finalPos: Position)
+
+//type Action = TODO - figure out how to enumerate different interactions with the world
 
 trait Entity {
 	val id: Int
@@ -24,6 +27,8 @@ trait Terrain {
 	def moveEntity(origin: Position, end: Position): Boolean // true if move possible and complete otherwise false
 	def groundExist(pos: Position): Boolean
 	def groundType(pos: Position): Material
+        def updateTerrain(Array[(Position,Material)]): Unit
+        def updateEntities(Array[(Position,Entity)]): Unit
 	def generateTerrain(seed: Int): Unit
 }
 
@@ -35,7 +40,8 @@ trait Material {
 }
 
 trait Transmitter {
-	def connect(address : String)
-	def terrainChange(Array[(Position, Material)])
-	def entityChange(Array[Entity])
+	def terrainChange(Array[(Position, Material)]): Unit
+        def getTerrainChanges: Array[(Position,Material)]
+	def entityChange(Array[(Position,Entity)]): Unit
+        def getEntityChanges: Array[(Position,Entity)]
 }
