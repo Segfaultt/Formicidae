@@ -1,5 +1,3 @@
-import traits
-
 /** material TODO:
   * - Implement randomness for drops
   */ 

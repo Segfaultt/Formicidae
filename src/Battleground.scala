@@ -1,6 +1,8 @@
-import traits 
+import Entity._
+import Position._
+import Material._
 
-class BattleGround extends Terrain (dimensions : Position) {
+class Battleground extends Terrain {
 	val entities = new Array[Entity](dimensions.x)(dimensions.y)(dimensions.z) 
         // implementation clear internally: DO NOT EXPOSE WITHOUT MAKING CLEAR
 	val materials = new Array[Material](dimensions.x)(dimensions.y)(dimensions.z)
@@ -23,15 +25,11 @@ class BattleGround extends Terrain (dimensions : Position) {
           }
         }
 
-        def updateEntities(updates: Array[(Position,Entities)]: Unit = 
+        def updateEntities(updates: Array[(Position,Entities)]) : Unit = 
         {
-          var apos: Int = 0
-          val max: Int = updates.size
-
-          while(apos<max)
-          {
+          var i = 0
+          for (i <- 0 until updates.size) {
             val(gp,ent) = updates(apos)
-            apos+=1
           }
         }
 }
