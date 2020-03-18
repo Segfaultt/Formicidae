@@ -45,9 +45,9 @@ object BattleGround extends Terrain {
         private def getEnt(pos: Position): Entity = entities(pos.x)(pos.y)(pos.z)
         private def setEnt(pos: Position, ent: Entity): Unit = entities(pos.x)(pos.y)(pos.z) = ent
 
-        def moveEntity(origin: Position, end: Position): Boolean = 
+        def moveEntity(origin: Position, end: Position): Unit = 
         {
-          setEnd(end,getEnt(origin))
+          setEnt(end,getEnt(origin))
         }
 
         def generateTerrain(seed: Int): Unit = ??? // TODO - implement initial terrain generation
