@@ -25,7 +25,7 @@ trait Entity {
 trait Terrain {
 	def dimensions: Position
 	def entity(pos: Position): Entity
-	def moveEntity(origin: Position, end: Position): Boolean // true if move possible and complete otherwise false
+	def moveEntity(origin: Position, end: Position): Unit // to reduce coupling, validity of move should be calculated elsewhere
 	def groundExist(pos: Position): Boolean
 	def groundType(pos: Position): Material
         def updateTerrain(updates: Array[(Position,Material)]): Unit
