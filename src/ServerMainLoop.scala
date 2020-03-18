@@ -12,8 +12,8 @@ import scala.collection.mutable.Queue
 object MainLoop {
 
 	private val tick: Int = 500 // how long a 'tick' of the clock should be in ms
-	private var te: Terrain = null // the terrain object that stores the state of the game
-	private var moves: Transmitter = new Queue[Transmitter](5)
+	private var ter: Terrain = null // the terrain object that stores the state of the game
+	private var moves: Queue[Transmitter] = new Queue[Transmitter]
 	
 	def init: Unit = 
 	{
@@ -25,22 +25,23 @@ object MainLoop {
         // Pre: transmitted moves are valid (aka not both fields null)
 	def mainLoop: Unit = 
 	{
-		val toExec: Transmitter = getMove
+		val toExec: Queue[Transmitter] = getMove
 
                 while(!toExec.isEmpty)
                 {
-                  val up: Transmitter = toExec.pop // up = updates
+                  val up: Transmitter = toExec.dequeue // up = updates
                   val tc: Array[(Position,Material)] = up.getTerrainChanges // tc = terrain changes
                   val ec: Array[(Position,Entity)] = up.getEntityChanges // ec = entity changes
+                  // upon compilation, compiler should reserve some space for these each time if compiler optimised well
 
                   if(null!=tc)
                     ter.updateTerrain(tc)
                   if(null!=ec)
-                    ter.updateEntities(getMove.getEntityChanges)
+                    ter.updateEntities(ec)
                 }
 	}
 	
-	def getMove: Transmitter = 
+	def getMove: Queue[Transmitter] = 
 	{
 		val re: Queue[Transmitter] = moves
                 moves = new Queue[Transmitter](5)
@@ -55,6 +56,8 @@ object MainLoop {
 	
 	def generateTerrain(seed: Int): Terrain = 
 	{
-	  BattleGround.generateTerrain
+          val bg: BattleGround = new BattleGround
+	  bg.generateTerrain
+          bg
 	}
 }
