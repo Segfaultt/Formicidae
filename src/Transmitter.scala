@@ -21,16 +21,16 @@ import java.nio.channels.ServerSocketChannel
   */
 
 object Transmitter {
-	private val PORT = 4226
-	private val BUFSIZE = 2048//note this
+	private var port = 0
+	private val BUFSIZE = 2048//note this and make sure its the same as Receiver.scala
 
-	private val socket = new DatagramSocket(PORT);
+	private var socket : DatagramSocket = null;
 	private val addresses = new LinkedList(InetAddress.getByName("localhost"), null)//dummy header
 
 	//send buf to recipient
 	private def sendBuf(buf : Array[Byte], recipient : InetAddress) : Unit = 
 	{
-		val packet = new DatagramPacket(buf, buf.size, recipient, PORT);
+		val packet = new DatagramPacket(buf, buf.size, recipient, port);
 		socket.send(packet)
 	}
 
@@ -54,6 +54,16 @@ object Transmitter {
 		b
 	}
 	
+	def getPort : Int = port
+
+	def getSocket : DatagramSocket = socket
+
+	def init (sendingPort : Int) : Unit = 
+	{
+		port = sendingPort
+		socket = new DatagramSocket
+	}
+
 	def addConnection(address : String) : Unit = 
 	{
 		addresses.next = new LinkedList(InetAddress.getByName(address), addresses.next)
@@ -84,6 +94,10 @@ object Transmitter {
 		val buf = intArrayToByteArray(preBuf)
 		
 		broadcast(buf)
+	}
+
+	def close : Unit = {
+		socket.close
 	}
 	
 	def entityChange(changes : Array[Entity]) = ??? 

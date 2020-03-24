@@ -5,12 +5,17 @@ object Server {
 			println("Please provide the number of players with the first argument.")
 		} else {
 			val nPlayers = args(0).toInt
-			print("Starting Formi server with " + nPlayers.toString + " players.")
+			println("Starting Formi server with " + nPlayers.toString + " players.")
+			Receiver.init(4277)
+			Transmitter.init(4276)
+			var i = 0 
+			for (i <- 0 until nPlayers) Receiver.listenForNewClient
+
 			val gameloop = new ServerLoop
 			gameloop.init
-			print(".")
-
-			print(".")
 		}
+
+		Receiver.close
+		Transmitter.close
 	}
 }
