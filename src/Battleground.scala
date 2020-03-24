@@ -1,20 +1,13 @@
-import com._
+import Position._
 
-object BattleGround extends Terrain {
-	private val entities = Array.ofDim[Entity](dimensions.x,dimensions.y,dimensions.z) 
+class Battleground(dim : Position) extends Terrain {
+	val entities = Array.ofDim[Entity](dimensions.x, dimensions.y, dimensions.z) 
         // implementation clear internally: DO NOT EXPOSE WITHOUT MAKING CLEAR
-	private val materials = Array.ofDim[Material](dimensions.x,dimensions.y,dimensions.z)
-        private var dim: Position = null
-
-        def init(dimensions: Position): Unit = 
-        {
-          dim = dimensions
-        }
+	val materials = Array.ofDim[Material](dimensions.x, dimensions.y, dimensions.z)
 
         def dimensions: Position = dim
         def entity(pos: Position): Entity = entities(pos.x)(pos.y)(pos.z)
-        def groundExist(pos: Position): Boolean = null != materials(pos.x)(pos.y)(pos.z)
-        // null used to represent no terrain
+        def groundExist(pos: Position): Boolean = materials(pos.x)(pos.y)(pos.z) != Air
         def groundType(pos: Position): Material = materials(pos.x)(pos.y)(pos.z)
 
         def updateTerrain(updates: Array[(Position,Material)]): Unit = 
@@ -32,13 +25,9 @@ object BattleGround extends Terrain {
 
         def updateEntities(updates: Array[(Position,Entity)]): Unit = 
         {
-          var apos: Int = 0
-          val max: Int = updates.size
-
-          while(apos<max)
-          {
-            val(gp,ent) = updates(apos)
-            apos+=1
+          var i = 0
+          for (i <- 0 until updates.size) {
+            val(gp,ent) = updates(i)
           }
         }
 

@@ -6,13 +6,21 @@ case class Move(var entity: Entity, var target: Entity, var pos: Position, var f
 //type Action = TODO - figure out how to enumerate different interactions with the world
 
 trait Entity {
+	val id: Int
 	def name: String
 	def hp: Double
 	def pos: Position
 	def dmg: Double
 	def speed: Double
 	def inventory: Array[Material]
-	val id: Int
+
+	//check numerical identity
+	override def equals(that : Any) : Boolean = {
+		that match {
+			case that : Entity => id == that.id
+			case _ => false
+		}
+	}
 }
 
 /*
@@ -28,20 +36,25 @@ trait Terrain {
 	def moveEntity(origin: Position, end: Position): Unit // to reduce coupling, validity of move should be calculated elsewhere
 	def groundExist(pos: Position): Boolean
 	def groundType(pos: Position): Material
-        def updateTerrain(updates: Array[(Position,Material)]): Unit
-        def updateEntities(updates: Array[(Position,Entity)]): Unit
+        def updateTerrain(changes: Array[(Position,Material)]): Unit
+        def updateEntities(changes: Array[(Position,Entity)]): Unit
 	def generateTerrain(seed: Int): Unit
 }
 
 trait Material {
+	def id: Int
 	def hardness: Int
 	def output: Array[Material]
 	def movementModifier(sp: Double): Double
 }
 
 trait Transmitter {
-	def terrainChange(changes: Array[(Position, Material)]): Unit
-        def getTerrainChanges: Array[(Position,Material)]
-	def entityChange(changes: Array[(Position,Entity)]): Unit
-        def getEntityChanges: Array[(Position,Entity)]
+	
+	//check qualitative identity 
+	override def equals(that : Any) : Boolean = {
+		that match {
+			case that : Material => id == that.id
+			case _ => false
+		}
+	}
 }
